@@ -1,39 +1,41 @@
-import { Inter as FontSans } from "next/font/google";
+import { ClerkProvider } from '@clerk/nextjs';
+import { dark } from '@clerk/themes';
+import type { Metadata } from 'next';
+import { Inter as FontSans } from 'next/font/google';
+import './globals.css';
 
-import { cn } from "@/lib/utils";
-import "./globals.css";
-import { Metadata } from "next";
-import { ClerkProvider } from "@clerk/nextjs";
-import { dark } from "@clerk/themes";
-import Provider from "./Provider";
+import { cn } from '@/lib/utils';
+
+import { Provider } from './Provider';
 
 const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
+  subsets: ['latin'],
+  variable: '--font-sans',
 });
 
 export const metadata: Metadata = {
-  title: "LiveDocs",
-  description: "Your go-to collaborative editor",
+  title: 'LiveDocs',
+  description:
+    'A collaborative text editor that leverages Liveblocks and Lexical to offer a real-time, feature-rich platform for creating, editing, and sharing documents.',
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <ClerkProvider
       appearance={{
         baseTheme: dark,
-        variables: { colorPrimary: "#3371FF", fontSize: "16px" },
+        variables: { colorPrimary: '#3371FF', fontSize: '16px' },
       }}
     >
-      <html lang="en" suppressHydrationWarning>
+      <html lang="en">
         <body
           className={cn(
-            "min-h-screen font-sans antialiased",
-            fontSans.variable
+            'min-h-screen font-sans antialiased',
+            fontSans.variable,
           )}
         >
           <Provider>{children}</Provider>

@@ -1,12 +1,12 @@
-"use server";
+'use server';
 
-import { nanoid } from "nanoid";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { nanoid } from 'nanoid';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
-import { liveblocks } from "@/lib/liveblocks";
+import { liveblocks } from '@/lib/liveblocks';
 
-import { getAccessType, parseStringify } from "../utils";
+import { getAccessType, parseStringify } from '../utils';
 
 // Create new document
 export const createDocument = async ({
@@ -19,11 +19,11 @@ export const createDocument = async ({
     const metadata = {
       creatorId: userId,
       email,
-      title: "Untitled",
+      title: 'Untitled',
     };
 
     const usersAccesses: RoomAccesses = {
-      [email]: ["room:write"],
+      [email]: ['room:write'],
     };
 
     // https://liveblocks.io/docs/api-reference/liveblocks-node#post-rooms
@@ -33,10 +33,10 @@ export const createDocument = async ({
       defaultAccesses: [], // [] means private room
     });
 
-    revalidatePath("/");
+    revalidatePath('/');
     return parseStringify(room);
   } catch (error) {
-    console.error("An error occurred while creating a room:", error);
+    console.error('An error occurred while creating a room:', error);
   }
 };
 
@@ -56,12 +56,12 @@ export const getDocument = async ({
     const hasAccess = Object.keys(room.usersAccesses).includes(userId);
 
     if (!hasAccess) {
-      throw new Error("You do not have access to this document.");
+      throw new Error('You do not have access to this document.');
     }
 
     return parseStringify(room);
   } catch (error) {
-    console.error("An error occurred while retrieving a room:", error);
+    console.error('An error occurred while retrieving a room:', error);
   }
 };
 
@@ -73,7 +73,7 @@ export const getDocuments = async (email: string) => {
 
     return parseStringify(rooms);
   } catch (error) {
-    console.error("An error occurred while retrieving rooms:", error);
+    console.error('An error occurred while retrieving rooms:', error);
   }
 };
 
@@ -91,8 +91,8 @@ export const updateDocument = async (roomId: string, title: string) => {
     return parseStringify(room);
   } catch (error) {
     console.error(
-      "An error occurred while updating the document title:",
-      error
+      'An error occurred while updating the document title:',
+      error,
     );
   }
 };
@@ -103,10 +103,10 @@ export const deleteDocument = async (roomId: string) => {
     // https://liveblocks.io/docs/api-reference/liveblocks-node#delete-rooms-roomId
     await liveblocks.deleteRoom(roomId);
   } catch (error) {
-    console.error("An error occurred while deleting a room:", error);
+    console.error('An error occurred while deleting a room:', error);
   } finally {
-    revalidatePath("/");
-    redirect("/");
+    revalidatePath('/');
+    redirect('/');
   }
 };
 
@@ -133,7 +133,7 @@ export const updateDocumentAccess = async ({
       // https://liveblocks.io/docs/api-reference/liveblocks-node#post-inbox-notifications-trigger
       await liveblocks.triggerInboxNotification({
         userId: email,
-        kind: "$documentAccess",
+        kind: '$documentAccess',
         subjectId: notificationId,
         activityData: {
           userType,
@@ -149,7 +149,7 @@ export const updateDocumentAccess = async ({
     revalidatePath(`/documents/${roomId}`);
     return parseStringify(room);
   } catch (error) {
-    console.error("An error occurred while sharing the document:", error);
+    console.error('An error occurred while sharing the document:', error);
   }
 };
 
@@ -165,7 +165,7 @@ export const removeCollaborator = async ({
 
     if (room.metadata.email === email) {
       throw new Error(
-        "You cannot remove the creator from the collaborators list."
+        'You cannot remove the creator from the collaborators list.',
       );
     }
 
@@ -176,6 +176,6 @@ export const removeCollaborator = async ({
     revalidatePath(`/documents/${roomId}`);
     return parseStringify(updatedRoom);
   } catch (error) {
-    console.error("An error occurred while sharing the document:", error);
+    console.error('An error occurred while sharing the document:', error);
   }
 };

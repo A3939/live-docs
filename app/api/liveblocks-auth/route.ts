@@ -1,13 +1,13 @@
-import { currentUser } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
+import { currentUser } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 
-import { liveblocks } from "@/lib/liveblocks";
-import { getUserColor } from "@/lib/utils";
+import { liveblocks } from '@/lib/liveblocks';
+import { getUserColor } from '@/lib/utils';
 
 export async function POST() {
   const clerkUser = await currentUser();
 
-  if (!clerkUser) redirect("/sign-in");
+  if (!clerkUser) redirect('/sign-in');
 
   const user = {
     id: clerkUser.id,
@@ -25,7 +25,7 @@ export async function POST() {
       userId: user.info.email, // Info stored in liveblock's userAccess
       groupIds: [],
     },
-    { userInfo: user.info }
+    { userInfo: user.info },
   );
 
   return new Response(body, { status });
