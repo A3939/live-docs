@@ -6,6 +6,7 @@ export const ActiveCollaborators = () => {
   const others = useOthers();
 
   const collaborators = others.map((other) => other.info);
+  console.log("🚀 ~ ActiveCollaborators ~ collaborators:", collaborators)
 
   return (
     <ul className="collaborators-list">
@@ -19,6 +20,7 @@ export const ActiveCollaborators = () => {
             className="inline-block size-8 rounded-full ring-2 ring-dark-100"
             style={{ border: `3px solid ${collaborator.color}` }}
           />
+          {collaborator.name}
         </li>
       ))}
     </ul>

@@ -20,7 +20,6 @@ const Document = async ({ params: { id } }: SearchParamProps) => {
   const userIds = Object.keys(room.usersAccesses);
 
   const users = await getClerkUsers({ userIds });
-  console.log("🚀 ~ Document ~ users:", users)
 
   const usersData = users.map((user: User) => ({
     ...user,

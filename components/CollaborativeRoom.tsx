@@ -36,7 +36,9 @@ export function CollaborativeRoom({
 
       try {
         if (documentTitle !== roomMetadata.title) {
+          console.log("🚀 ~ documentTitle:", documentTitle)
           const updatedDocument = await updateDocument(roomId, documentTitle);
+          console.log("🚀 ~ updatedDocument:", updatedDocument)
 
           if (updatedDocument) {
             setEditing(false);
